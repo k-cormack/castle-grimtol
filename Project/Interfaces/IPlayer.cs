@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using CastleGrimtol.Project;
+
 
 namespace CastleGrimtol.Project
 {
@@ -6,5 +9,7 @@ namespace CastleGrimtol.Project
   {
     string PlayerName { get; set; }
     List<Item> Inventory { get; set; }
+
+    void CreatePlayer();
   }
 }

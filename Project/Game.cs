@@ -19,6 +19,11 @@ namespace CastleGrimtol.Project
         public void StartGame()
         {
             Setup();
+            while (playing)
+            {
+                GetUserInput();
+
+            }
 
         }
         public void Setup()
@@ -32,12 +37,11 @@ namespace CastleGrimtol.Project
 
             //create and add room(s)
 
-            Room mapRoom = new Room("Map Room", "A room full of various maps", null, null);
-            Room library = new Room("Library", "Where the Scrolls are kept.", null, null);
-            Room dungeon = new Room("Dungeon", "Prisoners are kept here", null, null);
-            Room armory = new Room("Armory", "Weapons storage and maintenance", null, null);
+            Room mapRoom = new Room("Map Room", "This is a room full of various maps; there is an Exit to the East.", null, null);
+            Room library = new Room("Library", "The Room Where the Scrolls are kept; There is an Exit to the East and and Exit to the West.", null, null);
+            Room dungeon = new Room("Dungeon", "Prisoners are kept here; the is an exit to the West.", null, null);
+            Room armory = new Room("Armory", "Weapons storage and maintenance room; there is an Exit to the East, and an Exit to the West.", null, null);
 
-            _currentRoom = mapRoom;
 
 
             Rooms = new List<Room>();
@@ -47,12 +51,18 @@ namespace CastleGrimtol.Project
             Rooms.Add(armory);
 
 
-            mapRoom.Exits.Add("East", armory);
-            armory.Exits.Add("West", mapRoom);
-            armory.Exits.Add("East", library);
-            library.Exits.Add("West", armory);
-            armory.Exits.Add("East", dungeon);
-            dungeon.Exits.Add("West", armory);
+            mapRoom.Exits.Add("east", armory);
+            armory.Exits.Add("west", mapRoom);
+            armory.Exits.Add("east", library);
+            library.Exits.Add("west", armory);
+            library.Exits.Add("east", dungeon);
+            dungeon.Exits.Add("west", library);
+
+            mapRoom.Items.Add(rope);
+            armory.Items.Add(key);
+            library.Items.Add(dagger);
+
+            _currentRoom = mapRoom;
 
             playing = true;
 
@@ -61,6 +71,10 @@ namespace CastleGrimtol.Project
             Console.Write("What is your name?: ");
             var name = Console.ReadLine();
             _currentPlayer = new Player(name, null);
+            Console.Clear();
+            Console.WriteLine($"Welcome {name}!");
+            GetDescription();
+           
 
 
 
@@ -68,18 +82,19 @@ namespace CastleGrimtol.Project
 
         public void GetUserInput()
         {
-            _currentRoom.GetDescription();
-            Console.WriteLine("Which direction will yo Go?");
-            string input = Console.ReadLine();
-            input = input.ToLower();
-            switch (input)
+            
+            Console.WriteLine("Which direction will you Go?");
+            string input = Console.ReadLine().ToLower();
+            string[] userInput;
+            userInput = input.Split(' ');
+            switch (userInput[0])
             {
-                case "east":
-                    Go(input);
+                case "go":
+                    Go(userInput[1]);
                     break;
-                case "west":
-                    Go(input);
-                    break;
+                case "take":
+                    TakeItem(userInput[1]);
+                    break;    
                 case "quit":
                     Quit();
                     break;
@@ -89,12 +104,21 @@ namespace CastleGrimtol.Project
             }
 
         }
+        public void GetDescription()
+        {
+            Console.WriteLine($"You are now in the {_currentRoom.Name}.");
+            Console.WriteLine(_currentRoom.Description);
+        }
 
         public void Go(string direction)
         {
-            if(direction == "east") {
-
+            if (_currentRoom.Exits.ContainsKey(direction))
+            {
+                _currentRoom = _currentRoom.Exits[direction];
+                Console.Clear();
+                GetDescription();
             }
+
         }
 
         public void Help()
@@ -116,6 +140,8 @@ namespace CastleGrimtol.Project
         public void Quit()
         {
             playing = false;
+            Console.Clear();
+            Console.WriteLine("See you next time!");
             return;
         }
 

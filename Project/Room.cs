@@ -19,14 +19,10 @@ namespace CastleGrimtol.Project
         {
             Name = name;
             Description = description;
-            Items = items;
-            Exits = exits;
+            Items = new List<Item>();
+            Exits = new Dictionary<string, Room>();
         }
 
-        internal void GetDescription()
-        {
-            Console.WriteLine($"You are now in the {Name}.");
-            Console.WriteLine($"You see an exit to the {Exits}.");
-        }
+        
     }
 }

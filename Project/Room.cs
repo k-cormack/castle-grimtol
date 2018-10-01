@@ -22,5 +22,11 @@ namespace CastleGrimtol.Project
             Items = items;
             Exits = exits;
         }
+
+        internal void GetDescription()
+        {
+            Console.WriteLine($"You are now in the {Name}.");
+            Console.WriteLine($"You see an exit to the {Exits}.");
+        }
     }
 }

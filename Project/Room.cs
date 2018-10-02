@@ -9,17 +9,14 @@ namespace CastleGrimtol.Project
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public List<Item> Items { get; set; }
+        public Dictionary<string, Item> Items { get; set; }
         public Dictionary<string, Room> Exits { get; set; }
 
-        
-
-        
-        public Room(string name, string description, List<Item> items, Dictionary<string, Room> exits)
+        public Room(string name, string description, Dictionary<string, Item> items, Dictionary<string, Room> exits)
         {
             Name = name;
             Description = description;
-            Items = new List<Item>();
+            Items = new Dictionary<string, Item>();
             Exits = new Dictionary<string, Room>();
         }
 

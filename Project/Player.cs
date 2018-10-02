@@ -5,21 +5,19 @@ using CastleGrimtol.Project;
 
 namespace CastleGrimtol.Project
 {
-    public class Player : IPlayer
+    public class Player
     {
         public string PlayerName { get; set; }
-        public List<Item> Inventory { get; set; }
+        public List<Item> Inventory = new List<Item>();
 
-        public Player(string name, List<Item> inventory)
+        public Player(string name, Dictionary<string, Item> inventory)
         {
             PlayerName = name;
-            Inventory = inventory;
-
         }
 
-        public void CreatePlayer()
-        {
+        // public void CreatePlayer()
+        // {
             
-        }
+        // }
     }
 }

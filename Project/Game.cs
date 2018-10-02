@@ -49,10 +49,10 @@ namespace CastleGrimtol.Project
 
             //create and add room(s)
 
-            Room mapRoom = new Room("Map Room", "This is a room full of various maps; there is an Exit to the East.", null, null);
-            Room library = new Room("Library", "The Room Where the Scrolls are kept; There is an Exit to the East and and Exit to the West.", null, null);
-            Room dungeon = new Room("Dungeon", "Prisoners are kept here; the is an exit to the West.", null, null);
-            Room armory = new Room("Armory", "Weapons storage and maintenance room; there is an Exit to the East, and an Exit to the West.", null, null);
+            Room mapRoom = new Room("Map Room", "This is a room full of various maps; You see a length of Rope in the corner; There is an Exit to the East.", null, null);
+            Room library = new Room("Library", "The Room Where the Scrolls are kept; On the wall is mounted a small Dagger; There is an Exit to the East and and Exit to the West.", null, null);
+            Room dungeon = new Room("Dungeon", "Prisoners are kept here; A Strange creature is chained to the North wall; There is an exit to the West.", null, null);
+            Room armory = new Room("Armory", "Weapons storage and maintenance room; There is a brass Key on the floor; There is an Exit to the East, and an Exit to the West.", null, null);
             
             Rooms = new List<Room>();
             Rooms.Add(mapRoom);
@@ -117,7 +117,7 @@ namespace CastleGrimtol.Project
                 case "look":
                     Look();
                     break;
-                case "restart game":
+                case "restart":
                     Reset();
                     break;
                 case "quit":
@@ -143,6 +143,15 @@ namespace CastleGrimtol.Project
                 _currentRoom = _currentRoom.Exits[direction];
                 Console.Clear();
                 Look();
+                if(_currentRoom.Name == "Dungeon"){
+                    Console.Write("Do you wish to talk to the prisoner? (Y/N)");
+                    string answer = Console.ReadLine().ToLower();
+                    if(answer == "y"){
+                        Console.Clear();
+                        Console.WriteLine("The creature turns and rips off your face!!!......so sorry....you lose.");
+                        playing = false;
+                    }
+                }
             }
 
         }
@@ -196,7 +205,12 @@ namespace CastleGrimtol.Project
 
         public void Reset()
         {
+            Console.Write("Are you sure you want to Restart the Game? (Y/N)");
+            string answer  = Console.ReadLine().ToLower();
+            if(answer == "y"){
+            playing = false;
             StartGame();
+            }
         }
 
 
@@ -207,6 +221,7 @@ namespace CastleGrimtol.Project
             Item takeItem = _currentRoom.Items[itemName];
             _currentPlayer.Inventory.Add(takeItem);
             Console.WriteLine(_currentPlayer.Inventory);
+            Console.WriteLine($"The {itemName} has been added to your inventory.");
             }
         }
 
